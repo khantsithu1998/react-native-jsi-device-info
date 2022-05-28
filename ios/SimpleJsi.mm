@@ -188,9 +188,6 @@ static void install(jsi::Runtime &jsiRuntime, SimpleJsi *simpleJsi) {
     });
     
     jsiRuntime.global().setProperty(jsiRuntime, "getItem", move(getItem));
-    
-    
-    
 }
 
 

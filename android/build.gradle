@@ -1,6 +1,7 @@
 import java.nio.file.Paths
 
 buildscript {
+  //def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['Toast_kotlinVersion']
 
   repositories {
     google()
@@ -12,13 +13,21 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:4.2.1'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20"
+    classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.4.20"
   }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 def getExtOrDefault(name, defaultValue) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : defaultValue
+}
+
+def getExtOrIntegerDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['Toast_' + name]).toInteger()
 }
 
 def found = false
@@ -94,6 +103,10 @@ android {
   configurations {
     extractJNI
   }
+
+  buildFeatures {
+        viewBinding = true
+    }
 }
 
 repositories {
@@ -107,9 +120,12 @@ repositories {
   }
 }
 
+//def kotlin_version = getExtOrDefault('kotlinVersion')
+
 dependencies {
   //noinspection GradleDynamicVersion
   implementation 'com.facebook.react:react-native:+'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.20"
 
   def rnAAR = fileTree(reactNativePath).matching({ it.include "**/**/*.aar" }).singleFile
   extractJNI(files(rnAAR))
