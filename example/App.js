@@ -1,14 +1,27 @@
 import * as React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, NativeModules} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, NativeModules, Platform} from 'react-native';
 import JSIDeviceInfo, {isLoaded} from 'react-native-jsi-device-info';
 
 export default function App() {
   const [result, setResult] = React.useState();
   const [deviceName, setDeviceName] = React.useState();
-  const [getItemValue, setGetItemValue] = React.useState();
 
   React.useEffect(() => {
     setResult(JSIDeviceInfo.helloWorld());
+    if(Platform.OS === 'android') {
+      console.log("OS : ", JSIDeviceInfo.getBaseOS());
+      console.log("Host : ", JSIDeviceInfo.getHost());
+      console.log("Hardware : ", JSIDeviceInfo.getHardware());
+      console.log("Bootloader : ", JSIDeviceInfo.getBootloader());
+      console.log("Fingerprint : ", JSIDeviceInfo.getFingerprint());
+      console.log("IP Address : ", JSIDeviceInfo.getIPAddress());
+      console.log("Manufacturer : ", JSIDeviceInfo.getManufacturer());
+    } 
+    
+    console.log("Device Name : ", JSIDeviceInfo.getDeviceName());
+    console.log("Battery Level : ", JSIDeviceInfo.getBatteryLevel());
+    console.log("Bundle ID : ", JSIDeviceInfo.getBundleId());
+    console.log("Build Number : ", JSIDeviceInfo.getBuildNumber())
   }, []);
 
   return (
@@ -25,33 +38,6 @@ export default function App() {
         <Text style={styles.buttonTxt}>Device Name: {deviceName}</Text>
       </TouchableOpacity>
 
-      {/* <TouchableOpacity
-        onPress={() => {
-          JSIDeviceInfo.setItem('helloworld', 'Hello World');
-        }}
-        style={styles.button}>
-        <Text style={styles.buttonTxt}>setItem: "Hello World"</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          setGetItemValue(JSIDeviceInfo.getItem('helloworld'));
-        }}
-        style={styles.button}>
-        <Text style={styles.buttonTxt}>getItem: {getItemValue}</Text>
-      </TouchableOpacity> */}
-
-      <TouchableOpacity
-        onPress={() => {
-          JSIDeviceInfo.foo((error, result) => {
-            console.log('error:', error, 'result:', result);
-          });
-        }}
-        style={styles.button}>
-        <Text style={styles.buttonTxt}>
-          Async callback (Runs on seperate thread in c++)
-        </Text>
-      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
           console.log(JSIDeviceInfo.getApplicationName())

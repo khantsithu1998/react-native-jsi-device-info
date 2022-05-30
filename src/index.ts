@@ -8,31 +8,28 @@ import { NativeModules } from 'react-native';
 
 //@ts-ignore
 const JSIDeviceInfo: {
-  helloWorld(): string;
-  multiplyWithCallback(
-    x: number,
-    y: number,
-    callback: (z: number) => void
-  ): void;
-  multiply(x: number, y: number): number;
-  sum(x: number, y: number) : number;
-  getDeviceName(): string;
   getApiLevel(): string;
   getApplicationName() : string;
-  getHost():string;
+  getBaseOS(): string;
   getBatteryLevel(): string;
+  getBootloader(): string;
+  getBundleId(): string;
+  getBuildNumber(): string;
   getDeviceID(): string;
+  getDeviceName(): string;
+  getFingerprint(): string;
+  getHardware(): string; 
+  getHost():string;
   getIPAddress(): string;
   getManufacturer(): string;
+  getPhoneNunber(): string;
   getSecurityPatch(): string;
-  setItem(key: string, value: string): boolean;
-  getItem(key: string): string;
-  foo(callback:(error:string | undefined,value:string | undefined) => void):void
+  helloWorld(): string;
   //@ts-ignore
 } = global;
 
 export function isLoaded() {
-  return typeof JSIDeviceInfo.getItem === 'function';
+  return typeof JSIDeviceInfo.getDeviceName === 'function';
 }
 
 if (!isLoaded()) {
