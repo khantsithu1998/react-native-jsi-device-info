@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraManager
+import android.hardware.Camera
 import android.location.LocationManager
 import android.media.AudioManager
 import android.net.wifi.WifiManager
@@ -21,7 +23,7 @@ import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.module.annotations.ReactModule
-import java.lang.Exception
+
 
 @ReactModule(name = JSIDeviceInfoModule.NAME)
 class JSIDeviceInfoModule(reactContext: ReactApplicationContext?) :
@@ -176,6 +178,19 @@ class JSIDeviceInfoModule(reactContext: ReactApplicationContext?) :
       return audioManager.isWiredHeadsetOn || audioManager.isBluetoothA2dpOn
     }
 
+  fun isCameraPresent(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      val manager =
+        getReactApplicationContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager
+      try {
+        manager.cameraIdList.isNotEmpty()
+      } catch (e: Exception) {
+        false
+      }
+    } else {
+      Camera.getNumberOfCameras() > 0
+    }
+  }
   val host: String?
     get() = Build.HOST
 

@@ -9,13 +9,33 @@ Device Information Through JSI for [React Native](https://github.com/facebook/re
 
 ## Installation
 
+### Vanilla React Native
+
+yarn 
+
+```sh
+yarn add react-native-jsi-device-info
+```
+
+or
+
+npm
 ```sh
 npm install react-native-jsi-device-info
 ```
-For iOS also run `pod install` in `/ios` folder.
 
+And 
 
+```sh
+cd ios && pod install
+```
 
+### Expo
+
+```sh
+expo install react-native-jsi-device-info
+expo prebuild
+```
 
 ## Basic usage example
 ```tsx
